@@ -85,6 +85,18 @@ extension Carousel: View where Content: View {
 
     public var body: some View {
         ZStack {
+            selectionContent
+            if let index = self.index {
+                VStack {
+                    Indicator(data.count, selection: $index, stop: isTapped) {
+                        if index < data.count - 1 {
+                            self.index? += 1
+                        }
+                    }
+                    Spacer()
+                }
+                .padding()
+            }
             if let index = index {
                 HStack {
                     Rectangle()
@@ -103,18 +115,6 @@ extension Carousel: View where Content: View {
                         }
                         .disabled(index == data.count - 1)
                 }
-            }
-            selectionContent
-            if let index = self.index {
-                VStack {
-                    Indicator(data.count, selection: $index, stop: isTapped) {
-                        if index < data.count - 1 {
-                            self.index? += 1
-                        }
-                    }
-                    Spacer()
-                }
-                .padding()
             }
         }
         .onChange(of: index) { newValue in
